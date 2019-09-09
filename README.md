@@ -34,54 +34,67 @@ ________________________________________________________________________________
     }
 
 ___________________________________________________________________________________________________
-
+***Player Controller Script***
 ___________________________________________________________________________________________________
-    // Gaby Inchoco
-    // Volumetric Cinema Pre-Assignment
-    // 9/8/2019
-    // Player Controller Script
+     // Gaby Inchoco
+     // Volumetric Cinema Pre-Assignment
+     // 9/8/2019
+     // Player Controller Script
 
-    using System.Collections;
-    using System.Collections.Generic;
-    using UnityEngine;
+     using System.Collections;
+     using System.Collections.Generic;
+     using UnityEngine;
+     using UnityEngine.UI;
 
-    // Controls aspects of the Player's Game Object like collecting items,
-    // the ball's speed, and direction
-    public class PlayerController : MonoBehaviour {
-        // Declare instance variables
-        public float speed;
-        private Rigidbody rb;
-        private int count;
+     // Controls aspects of the Player's Game Object like collecting items,
+     // the ball's speed, and direction
+     public class PlayerController : MonoBehaviour {
 
-        // Start() method instantiates the variables "rb" and "count" to be used
-        // in other methods
-        void Start() {
-            rb = GetComponent<Rigidbody>();
-            count = 0;
-        }
+         // Declare public instance variables
+         public float speed;
+         public Text countText;
+         public Text winText;
+         // Declare private instance variables
+         private Rigidbody rb;
+         private int count;
 
-        // 
-        void FixedUpdate () {
-            float moveHorizontal = Input.GetAxis("Horizontal");
-            float moveVertical = Input.GetAxis("Vertical");
+         // Start() method which instantiates the instance variables at the opening of the game's runtime
+         void Start() {
+             rb = GetComponent<Rigidbody>();
+             count = 0;
+             SetCountText();
+             winText.text = "";
+             //countText.text = "Count: " + count.ToString();
+         }
 
-            Vector3 movement = new Vector3 (moveHorizontal,0.0f,moveVertical);
+         // Orients the main camera to be at a fixed point in relation to the Main PLayer object 
+         void FixedUpdate () {
+             float moveHorizontal = Input.GetAxis("Horizontal");
+             float moveVertical = Input.GetAxis("Vertical");
 
-            rb.AddForce(movement * speed);
-        }
+             Vector3 movement = new Vector3 (moveHorizontal,0.0f,moveVertical);
 
-        // Destroy everything that enters the trigger
-        void OnTriggerEnter(Collider other) {
-            if (other.gameObject.CompareTag("Pick Up")) {
-                count ++;
-                other.gameObject.SetActive(false);
-            }
+             rb.AddForce(movement * speed);
+         }
 
-            //Destroy(other.gameObject);
-        }
-
-
-    }
+         // OnTriggerEnter() method de-activates the pick up objects that have been collided with
+         void OnTriggerEnter(Collider other) {
+             if (other.gameObject.CompareTag("Pick Up")) {
+                 other.gameObject.SetActive(false);    // Deactivate the gameobject
+                 count = count + 1;                    // Update the counter
+                 SetCountText();                       // Update the counter's text
+                 }
+         }
+          
+        // SetCountText() method updates the counter's text for each "Pick Up" object collected
+        // and displays "You Win!" once all 8 items have been collected
+         void SetCountText() {
+             countText.text = "Count: " + count.ToString();
+             if (count >= 8) {
+                     winText.text = "You Win!";
+                     }
+               }
+         }
 
 ___________________________________________________________________________________________________
 
