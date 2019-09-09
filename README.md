@@ -4,7 +4,7 @@ Worked with a beginner tutorial in Unity to learn how to make a very basic game 
 ___________________________________________________________________________________________________
 ***Camera Controller Script***
 ___________________________________________________________________________________________________
-     // Gaby Inchoco
+    // Gaby Inchoco
     // Volumetric Cinema Pre-Assignment
     // 9/8/2019
     // Camera Controller Script       
